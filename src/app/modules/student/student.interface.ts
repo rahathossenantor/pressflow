@@ -20,14 +20,6 @@ export type Guardian = {
   address: string;
 };
 
-// export type Address = {
-//   village?: string;
-//   area?: string;
-//   city: string;
-//   district: string;
-//   country: string;
-// };
-
 type BloodGroup =
   | "A"
   | "B"
