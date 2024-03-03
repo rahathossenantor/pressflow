@@ -52,8 +52,6 @@ const studentSchema = new Schema<Student>({
   isActive: ["active", "blocked"],
 });
 
-const StudentModel = model<Student>("Student", studentSchema);
+const StudentModel = model<Student>("student", studentSchema);
 
-export {
-  StudentModel
-};
+export { StudentModel };
