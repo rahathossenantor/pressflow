@@ -37,7 +37,7 @@ type BloodGroup =
 export type Student = {
   id: string;
   name: Name;
-  gender: "male" | "female";
+  gender: "male" | "female" | "other";
   dateOfBirth: string;
   email: string;
   contactNo: string;
