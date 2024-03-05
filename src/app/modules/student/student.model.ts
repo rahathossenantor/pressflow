@@ -2,9 +2,9 @@ import { Schema, model } from "mongoose";
 import { Name, Parents, Guardian, Student } from "./student.interface";
 
 const nameSchema = new Schema<Name>({
-  firstName: { type: String, required: true },
+  firstName: { type: String, required: [true, "First name is required!"] },
   middleName: { type: String },
-  lastName: { type: String, required: true },
+  lastName: { type: String, required: [true, "Last name is required!"] },
 });
 
 const parentsSchema = new Schema<Parents>({
