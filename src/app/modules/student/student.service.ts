@@ -1,18 +1,26 @@
-import { Student } from "./student.interface";
-import { StudentModel } from "./student.model";
+import { TStudent } from "./student.interface";
+import { Student } from "./student.model";
 
-const createStudentIntoDB = async (student: Student) => {
-    const response = await StudentModel.create(student);
+const createStudentIntoDB = async (studentData: TStudent) => {
+    // const response = await StudentModel.create(studentData);
+    
+    const student = new Student(studentData);
+    
+    if (await student.isUserExist(studentData.id)) {
+        throw new Error("Student already exist!");
+    };
+
+    const response = await student.save();
     return response;
 };
 
 const getAllStudentsFromDB = async () => {
-    const response = await StudentModel.find();
+    const response = await Student.find();
     return response;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
-    const response = await StudentModel.findOne({ id });
+    const response = await Student.findOne({ id });
     return response;
 };
 

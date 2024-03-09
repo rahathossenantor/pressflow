@@ -1,14 +1,14 @@
 import Joi from "joi";
 
 const nameValidationSchema = Joi.object({
-    firstName: Joi.string().required().min(5).max(20).messages({
+    firstName: Joi.string().required().min(2).max(20).messages({
         'any.required': 'First name is required!',
         'string.empty': 'First name cannot be empty!',
         'string.min': 'First name must be at least {#limit} characters long!',
         'string.max': 'First name cannot be longer than {#limit} characters!'
     }),
     middleName: Joi.string(),
-    lastName: Joi.string().required().min(5).max(20).messages({
+    lastName: Joi.string().required().min(2).max(20).messages({
         'any.required': 'Last name is required!',
         'string.empty': 'Last name cannot be empty!',
         'string.min': 'Last name must be at least {#limit} characters long!',
@@ -55,6 +55,10 @@ const guardianValidationSchema = Joi.object({
     contactNo: Joi.string().required().messages({
         'any.required': "Guardian's contact number is required!",
         'string.empty': "Guardian's contact number cannot be empty!"
+    }),
+    address: Joi.string().required().messages({
+        'any.required': "Guardian's address is required!",
+        'string.empty': "Guardian's address cannot be empty!"
     })
 });
 

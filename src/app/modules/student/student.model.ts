@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
-import { Name, Parents, Guardian, Student } from "./student.interface";
+import { TName, TParents, TGuardian, TStudent, TStudentModel, TStudentMethods } from "./student.interface";
 
-const nameSchema = new Schema<Name>({
+const nameSchema = new Schema<TName>({
   firstName: {
     type: String,
     required: [true, "First name is required!"],
-    minlength: [5, "First name must be at least 5 characters long."],
+    minlength: [2, "First name must be at least 2 characters long."],
     maxlength: [20, "First name cannot exceed 20 characters."],
     validate: {
       validator: (fName: string) => {
@@ -24,7 +24,7 @@ const nameSchema = new Schema<Name>({
   lastName: {
     type: String,
     required: [true, "Last name is required!"],
-    minlength: [5, "Last name must be at least 5 characters long."],
+    minlength: [2, "Last name must be at least 2 characters long."],
     maxlength: [20, "Last name cannot exceed 20 characters."],
     validate: {
       validator: (lName: string) => {
@@ -38,7 +38,7 @@ const nameSchema = new Schema<Name>({
   }
 });
 
-const parentsSchema = new Schema<Parents>({
+const parentsSchema = new Schema<TParents>({
   fatherName: {
     type: String,
     required: [true, "Father's name is required!"]
@@ -65,7 +65,7 @@ const parentsSchema = new Schema<Parents>({
   }
 });
 
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
   name: {
     type: String,
     required: [true, "Guardian's name is required!"]
@@ -80,7 +80,7 @@ const guardianSchema = new Schema<Guardian>({
   }
 });
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
   id: {
     type: String,
     unique: true
@@ -152,6 +152,11 @@ const studentSchema = new Schema<Student>({
   }
 });
 
-const StudentModel = model<Student>("student", studentSchema);
+studentSchema.methods.isUserExist = async function (id: string) {
+  const existingUser = await Student.findOne({ id });
+  return existingUser;
+};
 
-export { StudentModel };
+const Student = model<TStudent, TStudentModel>("student", studentSchema);
+
+export { Student };
