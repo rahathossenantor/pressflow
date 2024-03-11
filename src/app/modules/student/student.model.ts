@@ -177,7 +177,21 @@ studentSchema.post("save", function (doc, next: NextFunction) {
 
 // query middlewares
 studentSchema.pre("find", function (next: NextFunction) {
-  console.log(this);
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("findOne", function (next: NextFunction) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("aggregate", function (next: NextFunction) {
+  this.pipeline().unshift(
+    {
+      $match: { isDeleted: { $ne: true } }
+    }
+  );
   next();
 });
 
