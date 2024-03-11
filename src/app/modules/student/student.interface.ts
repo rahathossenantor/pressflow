@@ -52,6 +52,7 @@ export type TStudent = {
   guardian: TGuardian;
   avatar?: string;
   isActive: "active" | "blocked";
+  isDeleted: boolean;
 };
 
 export type TStudentMethods = {

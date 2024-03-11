@@ -5,12 +5,11 @@ const createStudentIntoDB = async (studentData: TStudent) => {
     // const response = await StudentModel.create(studentData);
     
     const student = new Student(studentData);
-    
     if (await student.isUserExist(studentData.id)) {
         throw new Error("Student already exist!");
     };
-
     const response = await student.save();
+
     return response;
 };
 
@@ -24,8 +23,14 @@ const getSingleStudentFromDB = async (id: string) => {
     return response;
 };
 
+const deleteStudentFromDB = async (id: string) => {
+    const response = await Student.updateOne({ id }, { isDeleted: true });
+    return response;
+};
+
 export const StudentServices = {
     createStudentIntoDB,
     getAllStudentsFromDB,
     getSingleStudentFromDB,
+    deleteStudentFromDB
 };

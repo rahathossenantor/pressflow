@@ -153,7 +153,8 @@ const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
     type: String,
     enum: ["active", "blocked"],
     default: "active"
-  }
+  },
+  isDeleted: { type: Boolean, default: false }
 });
 
 studentSchema.methods.isUserExist = async function (id: string) {
@@ -161,6 +162,7 @@ studentSchema.methods.isUserExist = async function (id: string) {
   return existingStudent;
 };
 
+// documents middlewares
 studentSchema.pre("save", async function (next: NextFunction) {
   const student = this;
   // encrypting student's password
@@ -170,6 +172,12 @@ studentSchema.pre("save", async function (next: NextFunction) {
 
 studentSchema.post("save", function (doc, next: NextFunction) {
   doc.password = "";
+  next();
+});
+
+// query middlewares
+studentSchema.pre("find", function (next: NextFunction) {
+  console.log(this);
   next();
 });
 

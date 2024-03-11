@@ -53,7 +53,8 @@ const zodStudentValidationSchema = z.object({
     parents: ParentsSchema,
     guardian: GuardianSchema,
     avatar: z.string().optional(),
-    isActive: z.enum(["active", "blocked"]).default("active")
+    isActive: z.enum(["active", "blocked"]).default("active"),
+    isDeleted: z.boolean().default(false)
 });
 
 export default zodStudentValidationSchema;

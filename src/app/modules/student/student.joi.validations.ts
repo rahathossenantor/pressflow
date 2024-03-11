@@ -105,7 +105,8 @@ const studentValidationSchema = Joi.object({
         'any.required': 'Guardian information is required!'
     }),
     avatar: Joi.string(),
-    isActive: Joi.string().valid('active', 'blocked').default('active')
+    isActive: Joi.string().valid('active', 'blocked').default('active'),
+    isDeleted: Joi.boolean().default(false)
 });
 
 export default studentValidationSchema;
