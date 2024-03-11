@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
 import { TName, TParents, TGuardian, TStudent, TStudentModel, TStudentMethods } from "./student.interface";
+import bcrypt from "bcrypt";
+import { NextFunction } from "express";
+import config from "../../config";
 
 const nameSchema = new Schema<TName>({
   firstName: {
@@ -85,6 +88,7 @@ const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
     type: String,
     unique: true
   },
+  password: { type: String },
   name: {
     type: nameSchema,
     required: [true, "Student name is required!"]
@@ -153,10 +157,23 @@ const studentSchema = new Schema<TStudent, TStudentModel, TStudentMethods>({
 });
 
 studentSchema.methods.isUserExist = async function (id: string) {
-  const existingUser = await Student.findOne({ id });
-  return existingUser;
+  const existingStudent = await Student.findOne({ id });
+  return existingStudent;
 };
 
+studentSchema.pre("save", async function (next: NextFunction) {
+  const student = this;
+  // encrypting student's password
+  student.password = await bcrypt.hash(student.password, Number(config.bcrypt_salt_rounds));
+  next();
+});
+
+studentSchema.post("save", function (doc, next: NextFunction) {
+  doc.password = "";
+  next();
+});
+
+// student model
 const Student = model<TStudent, TStudentModel>("student", studentSchema);
 
 export { Student };

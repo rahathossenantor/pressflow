@@ -67,6 +67,7 @@ const studentValidationSchema = Joi.object({
         'any.required': 'Student ID is required!',
         'string.empty': 'Student ID cannot be empty!'
     }),
+    password: Joi.string().required(),
     name: nameValidationSchema.required().messages({
         'any.required': 'Name is required!'
     }),

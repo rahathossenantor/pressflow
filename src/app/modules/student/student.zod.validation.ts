@@ -40,6 +40,7 @@ const GuardianSchema = z.object({
 // Define Zod schema for Student
 const zodStudentValidationSchema = z.object({
     id: z.string(),
+    password: z.string(),
     name: NameSchema,
     gender: z.enum(["male", "female", "other"]),
     dateOfBirth: z.string().min(1, { message: "Date of birth is required!" }),
